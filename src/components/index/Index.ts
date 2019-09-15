@@ -45,7 +45,7 @@ export class Index extends Component {
 
                         row.appendChild(currImgContainer);
                     })
-
+                    root.appendChild(row);
                 })
             }).catch(err => console.log(err));
 
