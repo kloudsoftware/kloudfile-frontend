@@ -1,0 +1,54 @@
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: kloudfile-frontend
+  namespace: kloudfile
+  labels:
+    k8s-app: kloudfile-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: kloudfile-frontend
+  template:
+    metadata:
+      labels:
+        k8s-app: kloudfile-frontend
+        name: kloudfile-frontend
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+        - image: registry.kloudfile.io/kloudfile/frontend
+          name: kloudfile-frontend-c
+          ports:
+            - name: http
+              containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kloudfile-frontend-service
+  namespace: kloudfile
+spec:
+  selector:
+    k8s-app: kloudfile-frontend
+  ports:
+    - name: web
+      port: 80
+      targetPort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: kloudfile
+spec:
+  rules:
+    - host: manage.kloudfile.io
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: kloudfile-frontend-service
+              servicePort: web
