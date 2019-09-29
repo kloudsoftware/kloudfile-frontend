@@ -13,6 +13,9 @@ export class Image extends Component {
             const currImgContainer = app.k("div", { attrs: [cssClass("imgSoloContainer")] }, [img]);
 
             let deleteBtn = app.k("span", { attrs: [cssClass("btn btn-delete router-btn btnImageDelete")], value: "Delete Image" });
+            let copyBtn = app.k("span", { attrs: [cssClass("btn btn-confirm router-btn btnImageCopy")], value: "Copy Link" });
+            let viewCount = app.k("span", {value: "", attrs: [cssClass("router-btn btnImageCopy")]})
+
 
 
             http.peformGet("/api/list/").then(async (resp) => {
@@ -26,6 +29,12 @@ export class Image extends Component {
 
                 const item = list[0];
 
+                viewCount.setInnerHtml("Viewcount: " + item.viewCount)
+
+                copyBtn.addEventlistener("click", () => {
+                    navigator.clipboard.writeText("https://kloudfile.io/res/" + url)
+                });
+
                 deleteBtn.addEventlistener("click", () => {
                     console.log(item.fileDeleteUrl);
                     http.peformGet("/api/delete/" + item.fileDeleteUrl).then(() => {
@@ -34,13 +43,16 @@ export class Image extends Component {
                         app.router.resolveRoute("/")
 
                     }).catch((e) => console.error(e));
-                })
-            })
+                });
+            });
 
             const div = app.k("div", { attrs: [cssClass("card form-card")] }, [
                 app.k("div", { attrs: [cssClass("form-holder")] }, [
                     currImgContainer,
-                    deleteBtn
+                    deleteBtn,
+                    copyBtn,
+                    viewCount
+                
                 ])
             ]);
 

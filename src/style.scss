@@ -384,8 +384,8 @@ a {
 }
   
 .column {
-    flex: 20%;
-    max-width: 23%;
+    flex: 16%;
+    max-width: 40%;
     padding: 1em .5em;
 }
   
@@ -423,5 +423,12 @@ a {
     margin-top: 1em;
     max-width: 10em;
     float: right;
+    min-width: 10em;
+}
+
+.btnImageCopy {
+    margin-top: 1em;
+    max-width: 10em;
+    float: left;
     min-width: 10em;
 }
