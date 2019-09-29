@@ -1,8 +1,8 @@
-import { VApp } from '@kloudsoftware/eisen';
+import {VApp} from '@kloudsoftware/eisen';
 
 export class HttpClient {
-    private basePath: string;
     app: VApp;
+    private basePath: string;
 
     constructor(basePath: string, app: VApp) {
         this.basePath = basePath;
@@ -30,7 +30,7 @@ export class HttpClient {
 
     getHeader(contentType?: string): any {
         const token = window.localStorage.getItem("token");
-        if (token != undefined && token != null && token.length > 0) {
+        if (token != undefined && token.length > 0) {
             if (contentType == undefined) {
                 return {
                     "Authorization": token,

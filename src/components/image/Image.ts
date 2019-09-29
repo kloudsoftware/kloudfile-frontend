@@ -1,12 +1,12 @@
 import { Component, VApp, ComponentBuildFunc, Props, VNode, src, cssClass } from "@kloudsoftware/eisen"
 import { HttpClient } from "../../plugins/HttpClient";
-import { ImageDTO } from "../index/Index";
+import { ImageDTO } from "../index";
 
 export class Image extends Component {
     build(app: VApp): ComponentBuildFunc {
         return (root: VNode, props: Props) => {
             root.addClass("container center-container");
-            const url = props.getProp("_id")
+            const url = props.getProp("_id");
             const http = app.get<HttpClient>("http");
 
             const img = app.k("img", { attrs: [src("https://kloudfile.io/res/" + url + "/?apiOnly=true")] });
@@ -38,7 +38,7 @@ export class Image extends Component {
                 deleteBtn.addEventlistener("click", () => {
                     console.log(item.fileDeleteUrl);
                     http.peformGet("/api/delete/" + item.fileDeleteUrl).then(() => {
-                        app.eventPipeLine.registerEvent("itemDeleted", () => {})
+                        app.eventPipeLine.registerEvent("itemDeleted", () => {});
                         app.eventPipeLine.callEvent("itemDeleted", item.id);
                         app.router.resolveRoute("/")
 

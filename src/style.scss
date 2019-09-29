@@ -126,13 +126,13 @@ $border-radius-full: 9999px;
 .error {
     border-color: red;
 }
+
 h1, h2, h3, h4, h5, h6 {
     font-weight: 100;
-    margin: 0;
 }
 
 body {
-    font-family: 'RobotoRegular';
+    font-family: 'RobotoRegular', sans-serif;
     font-weight: normal;
     font-style: normal;
 }
@@ -251,7 +251,7 @@ a {
     font-style: italic;
 }
 
-/* The following rules are deprecated. */ 
+/* The following rules are deprecated. */
 
 @font-face {
     font-family: 'Roboto';
@@ -382,26 +382,26 @@ a {
     padding: 0 4px;
     justify-content: center;
 }
-  
+
 .column {
     flex: 16%;
     max-width: 40%;
     padding: 1em .5em;
 }
-  
+
 .column img {
     margin-top: 8px;
     vertical-align: middle;
     max-height: 90%
 }
-  
+
 @media screen and (max-width: 800px) {
     .column {
       flex: 50%;
       max-width: 50%;
     }
  }
-  
+
 @media screen and (max-width: 600px) {
     .column {
       flex: 100%;
@@ -416,7 +416,13 @@ a {
 
 .imgSoloContainer {
     display: flex;
-    justify-content: center
+    justify-content: center;
+    max-height: 80vh;
+    max-width: 80vw;
+}
+
+.imgSoloContainer > img {
+    object-fit: scale-down;
 }
 
 .btnImageDelete {

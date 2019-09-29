@@ -1,11 +1,18 @@
-import { Component, ComponentBuildFunc, ComponentProps, style, Router } from '@kloudsoftware/eisen';
-import { VNode, Attribute, cssClass, id, labelFor, password, VInputNode } from '@kloudsoftware/eisen';
-import { Props } from '@kloudsoftware/eisen';
-import { VApp } from '@kloudsoftware/eisen';
-import { css } from './logincss'
-import { RouterLink } from '@kloudsoftware/eisen';
-import { isDefinedAndNotEmpty } from '@kloudsoftware/eisen';
-import { HttpClient } from "../../plugins/HttpClient";
+import {
+    Component,
+    ComponentBuildFunc,
+    ComponentProps,
+    cssClass,
+    id,
+    labelFor,
+    password,
+    Props,
+    style,
+    VApp,
+    VInputNode,
+    VNode
+} from '@kloudsoftware/eisen';
+import {css} from './logincss'
 
 class UserRegisterInfo {
     password: string;
@@ -20,9 +27,9 @@ export class Login extends Component {
 
             app.createElement("style", css, root);
             let userInfo = new UserRegisterInfo();
-            let pwInput = app.k("input", { attrs: [id("iPassword"), password(), cssClass("user-input")] }) as VInputNode;
+            let pwInput = app.k("input", {attrs: [id("iPassword"), password(), cssClass("user-input")]}) as VInputNode;
 
-            let confirmBtn = app.k("span", { attrs: [cssClass("btn btn-confirm router-btn")], value: "Login" });
+            let confirmBtn = app.k("span", {attrs: [cssClass("btn btn-confirm router-btn")], value: "Login"});
 
             pwInput.bindObject(userInfo, "password");
 
@@ -31,11 +38,11 @@ export class Login extends Component {
                 attrs: [style("display: none"), cssClass("errorText")]
             });
 
-            const div = app.k("div", { attrs: [cssClass("card form-card")] }, [
-                app.k("div", { attrs: [cssClass("form-holder")] }, [
+            const div = app.k("div", {attrs: [cssClass("card form-card")]}, [
+                app.k("div", {attrs: [cssClass("form-holder")]}, [
                     errorText,
-                    app.k("h1", { value: "Log in", attrs: [cssClass("form-heading")] }),
-                    app.k("label", { value: "Enter key", attrs: [labelFor("iPassword"), cssClass("user-input-label")] }),
+                    app.k("h1", {value: "Log in", attrs: [cssClass("form-heading")]}),
+                    app.k("label", {value: "Enter key", attrs: [labelFor("iPassword"), cssClass("user-input-label")]}),
                     pwInput,
                     confirmBtn,
                 ])
@@ -50,8 +57,7 @@ export class Login extends Component {
 
             root.appendChild(div);
 
-            return {
-            }
+            return {}
         }
     }
 }

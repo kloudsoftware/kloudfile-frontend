@@ -1,7 +1,7 @@
-import { isDefinedAndNotEmpty, Router, IRouter } from "@kloudsoftware/eisen";
+import {IRouter, isDefinedAndNotEmpty} from "@kloudsoftware/eisen";
 
 export function handleAuthentication(router: IRouter): void {
-    if(!isDefinedAndNotEmpty(localStorage.getItem("token"))) {
+    if (!isDefinedAndNotEmpty(localStorage.getItem("token"))) {
         router.resolveRoute("/login")
     }
 }

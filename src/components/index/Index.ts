@@ -1,50 +1,56 @@
-import { Component, VApp, ComponentBuildFunc, Props, VNode, src, cssClass, isDefinedAndNotEmpty, Router, id } from "@kloudsoftware/eisen"
-import { handleAuthentication } from "../../common";
-import { HttpClient } from "../../plugins/HttpClient";
-import { Image } from "../image/Image";
-
+import {
+    Component,
+    ComponentBuildFunc,
+    cssClass,
+    isDefinedAndNotEmpty,
+    Props,
+    src,
+    VApp,
+    VNode
+} from "@kloudsoftware/eisen"
+import {HttpClient} from "../../plugins/HttpClient";
 
 
 export class Index extends Component {
     build(app: VApp): ComponentBuildFunc {
         return (root: VNode, props: Props) => {
 
-            root.appendChild(app.k("h1" , {value: "All Images"}))
+            root.appendChild(app.k("h1", {value: "All Images"}));
 
             let token = window.localStorage.getItem("token");
             if (!isDefinedAndNotEmpty(token)) {
                 app.router.resolveRoute("/login")
             }
 
-            const images = new Map<number, VNode>()
+            const images = new Map<number, VNode>();
 
             const http = app.get<HttpClient>("http");
             http.peformGet("/api/list/").then((resp) => {
                 resp.json().then((data: Array<ImageDTO>) => {
-                    let row = app.k("div", { attrs: [cssClass("row")]})
+                    let row = app.k("div", {attrs: [cssClass("row")]});
                     data.forEach((item, index) => {
                         if (index > 12) {
                             return;
                         }
 
                         if (index % 4 === 0) {
-                            root.appendChild(row)
-                            row =  app.k("div", { attrs: [cssClass("row")]});
+                            root.appendChild(row);
+                            row = app.k("div", {attrs: [cssClass("row")]});
                         }
 
-                        const img = app.k("img", { attrs: [src("https://kloudfile.io/res/" + item.fileUrl + "/?apiOnly=true")] });
+                        const img = app.k("img", {attrs: [src("https://kloudfile.io/res/" + item.fileUrl + "/?apiOnly=true")]});
                         const currImgContainer = app.k("div", {attrs: [cssClass("imgContainer", "column", "card form-card")]}, [img]);
                         images.set(item.id, currImgContainer);
-                        img.addEventlistener("click", (ev, node) => {
+                        img.addEventlistener("click", () => {
                             const props = new Props(app);
                             props.setProp("data", item);
-                            history.pushState({}, "", document.location.pathname)
+                            history.pushState({}, "", document.location.pathname);
                             app.router.resolveRoute("/img/" + item.fileUrl);
                         });
-                        currImgContainer.appendChild(app.k("p", {value: item.viewCount.toString()}))
+                        currImgContainer.appendChild(app.k("p", {value: item.viewCount.toString()}));
 
                         row.appendChild(currImgContainer);
-                    })
+                    });
                     root.appendChild(row);
                 })
             }).catch(err => console.log(err));
@@ -55,7 +61,6 @@ export class Index extends Component {
             });
 
 
-            console.log(token)
             return {
                 mounted: () => {
                 }
