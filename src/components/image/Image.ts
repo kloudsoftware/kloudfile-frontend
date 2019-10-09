@@ -36,10 +36,9 @@ export class Image extends Component {
                 });
 
                 deleteBtn.addEventlistener("click", () => {
-                    console.log(item.fileDeleteUrl);
                     http.peformGet("/api/delete/" + item.fileDeleteUrl).then(() => {
                         app.eventPipeLine.registerEvent("itemDeleted", () => {});
-                        app.eventPipeLine.callEvent("itemDeleted", item.id);
+                        app.eventPipeLine.callEvent("itemDeleted", item);
                         app.router.resolveRoute("/")
 
                     }).catch((e) => console.error(e));
