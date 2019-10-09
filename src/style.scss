@@ -1,10 +1,10 @@
 @import 'reset.scss';
 
 @mixin transform($property) {
-    -webkit-transform: $property;
-    -ms-transform: $property;
-    -moz-transform: $property;
-    transform: $property;
+  -webkit-transform: $property;
+  -ms-transform: $property;
+  -moz-transform: $property;
+  transform: $property;
 }
 
 $transparent: transparent;
@@ -58,383 +58,399 @@ $border-radius-lg: .5rem;
 $border-radius-full: 9999px;
 
 .user-input-label {
-    padding-bottom: .2em;
-    padding-top:.4em;
+  padding-bottom: .2em;
+  padding-top: .4em;
 }
 
 .user-input {
-    margin-bottom:.5em;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    border: none;
-    border-radius: 3px;
-    box-shadow: none;
-    display: -webkit-inline-box;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    font-size: 1rem;
-    height: 2.25em;
-    -webkit-box-pack: start;
-    -ms-flex-pack: start;
-    justify-content: flex-start;
-    line-height: 1.25;
-    padding-bottom: .5em;
-    padding-left: .625em;
-    padding-right: .625em;
-    padding-top: .5em;
-    position: relative;
-    vertical-align: top;
-    background-color: #fff;
-    border: 1px solid #dbdbdb;
-    color: #363636;
-    //box-shadow: inset 0 1px 2px rgba(10,10,10,.1);
-    max-width: 100%;
-    width: 100%;
+  margin-bottom: .5em;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border: none;
+  border-radius: 3px;
+  box-shadow: none;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  font-size: 1rem;
+  height: 2.25em;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  line-height: 1.25;
+  padding-bottom: .5em;
+  padding-left: .625em;
+  padding-right: .625em;
+  padding-top: .5em;
+  position: relative;
+  vertical-align: top;
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+  color: #363636;
+  //box-shadow: inset 0 1px 2px rgba(10,10,10,.1);
+  max-width: 100%;
+  width: 100%;
 }
 
 .card {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .btn {
-    border-radius: $border-radius-default;
-    cursor: pointer;
-    text-decoration:none;
-	  text-shadow:0px 1px 0px $green-darker;
+  border-radius: $border-radius-default;
+  cursor: pointer;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px $green-darker;
 }
 
 .btn:hover {
-    filter: brightness(110%);
+  filter: brightness(110%);
 }
 
 .btn-confirm {
-    background-color: $green;
-    border-color: darkgreen;
-    color: white;
+  background-color: $green;
+  border-color: darkgreen;
+  color: white;
 }
 
 
 .btn-delete {
-    background-color: $red;
-    border-color: darkred;
-    color: white;
+  background-color: $red;
+  border-color: darkred;
+  color: white;
 }
 
 .error {
-    border-color: red;
+  border-color: red;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 100;
+  font-weight: 100;
 }
 
 body {
-    font-family: 'RobotoRegular', sans-serif;
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'RobotoRegular', sans-serif;
+  font-weight: normal;
+  font-style: normal;
 }
 
 .router-btn {
-    display: block;
-    margin-top: auto;
-    text-align:center;
-    line-height:50px;
-    min-height:3em;
+  display: block;
+  margin-top: auto;
+  text-align: center;
+  line-height: 50px;
+  min-height: 3em;
 }
 
 .router-link {
-    text-decoration: none;
-    cursor: pointer;
-    padding-top: 1rem
+  text-decoration: none;
+  cursor: pointer;
+  padding-top: 1rem
+}
+
+.invisible {
+  display: none;
 }
 
 a {
-    text-decoration: none;
-    cursor: pointer;
-    color: black;
+  text-decoration: none;
+  cursor: pointer;
+  color: black;
 }
 
 .form-card {
-    margin: 2rem;
-    padding: 2rem;
+  margin: 2rem;
+  padding: 2rem;
 }
 
 .form-heading {
-    margin-bottom: 2rem;
-    margin-left: auto;
-    margin-right: auto;
-}
-@font-face {
-    font-family: 'RobotoBlack';
-    src: url('../static/Roboto-Black.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
+  margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @font-face {
-    font-family: 'RobotoBlackItalic';
-    src: url('../static/Roboto-BlackItalic.ttf') format('truetype');
-    font-weight: bold;
-    font-style: italic;
+  font-family: 'RobotoBlack';
+  src: url('../static/Roboto-Black.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'RobotoBold';
-    src: url('../static/Roboto-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
+  font-family: 'RobotoBlackItalic';
+  src: url('../static/Roboto-BlackItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
 }
 
 @font-face {
-    font-family: 'RobotoBoldItalic';
-    src: url('../static/Roboto-BoldItalic.ttf') format('truetype');
-    font-weight: bold;
-    font-style: italic;
+  font-family: 'RobotoBold';
+  src: url('../static/Roboto-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'RobotoItalic';
-    src: url('../static/Roboto-Italic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
+  font-family: 'RobotoBoldItalic';
+  src: url('../static/Roboto-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
 }
 
 @font-face {
-    font-family: 'RobotoLight';
-    src: url('../static/Roboto-Light.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'RobotoItalic';
+  src: url('../static/Roboto-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
 }
 
 @font-face {
-    font-family: 'RobotoLightItalic';
-    src: url('../static/Roboto-LightItalic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
+  font-family: 'RobotoLight';
+  src: url('../static/Roboto-Light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'RobotoMedium';
-    src: url('../static/Roboto-Medium.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'RobotoLightItalic';
+  src: url('../static/Roboto-LightItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
 }
 
 @font-face {
-    font-family: 'RobotoMediumItalic';
-    src: url('../static/Roboto-MediumItalic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
+  font-family: 'RobotoMedium';
+  src: url('../static/Roboto-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'RobotoRegular';
-    src: url('../static/Roboto-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'RobotoMediumItalic';
+  src: url('../static/Roboto-MediumItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
 }
 
 @font-face {
-    font-family: 'RobotoThin';
-    src: url('../static/Roboto-Thin.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'RobotoRegular';
+  src: url('../static/Roboto-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'RobotoThinItalic';
-    src: url('../static/Roboto-ThinItalic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
+  font-family: 'RobotoThin';
+  src: url('../static/Roboto-Thin.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'RobotoThinItalic';
+  src: url('../static/Roboto-ThinItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
 }
 
 /* The following rules are deprecated. */
 
 @font-face {
-    font-family: 'Roboto';
-    src: url('../static/Roboto-Black.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
+  font-family: 'Roboto';
+  src: url('../static/Roboto-Black.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
 }
 
 
-
 @font-face {
-    font-family: 'Roboto';
-    src: url('../static/Roboto-BlackItalic.ttf') format('truetype');
-    font-weight: bold;
-    font-style: italic;
+  font-family: 'Roboto';
+  src: url('../static/Roboto-BlackItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
 }
 
 
-
 @font-face {
-    font-family: 'Roboto';
-    src: url('../static/Roboto-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
+  font-family: 'Roboto';
+  src: url('../static/Roboto-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
 }
 
 
-
 @font-face {
-    font-family: 'Roboto';
-    src: url('../static/Roboto-BoldItalic.ttf') format('truetype');
-    font-weight: bold;
-    font-style: italic;
+  font-family: 'Roboto';
+  src: url('../static/Roboto-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
 }
 
 
-
 @font-face {
-    font-family: 'Roboto';
-    src: url('../static/Roboto-Italic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
+  font-family: 'Roboto';
+  src: url('../static/Roboto-Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
 }
 
 
-
 @font-face {
-    font-family: 'Roboto';
-    src: url('../static/Roboto-Light.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'Roboto';
+  src: url('../static/Roboto-Light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 
-
 @font-face {
-    font-family: 'Roboto';
-    src: url('../static/Roboto-LightItalic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
+  font-family: 'Roboto';
+  src: url('../static/Roboto-LightItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
 }
 
 
-
 @font-face {
-    font-family: 'Roboto';
-    src: url('../static/Roboto-Medium.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'Roboto';
+  src: url('../static/Roboto-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 
-
 @font-face {
-    font-family: 'Roboto';
-    src: url('../static/Roboto-MediumItalic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
+  font-family: 'Roboto';
+  src: url('../static/Roboto-MediumItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
 }
 
 
-
 @font-face {
-    font-family: 'Roboto';
-    src: url('../static/Roboto-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'Roboto';
+  src: url('../static/Roboto-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 
-
 @font-face {
-    font-family: 'Roboto';
-    src: url('../static/Roboto-Thin.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'Roboto';
+  src: url('../static/Roboto-Thin.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 
-
 @font-face {
-    font-family: 'Roboto';
-    src: url('../static/Roboto-ThinItalic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
+  font-family: 'Roboto';
+  src: url('../static/Roboto-ThinItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
 }
 
 
 .imgContainer {
-    width: 10em;
-    height: 10em;
+  width: 10em;
+  height: 10em;
 }
 
 .imgContainer > img {
-    max-width:100%;
-    max-height:100%;
-    object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
 }
 
 .imgContainer > img:hover {
-    cursor: pointer;
-    object-fit: scale-down
+  cursor: pointer;
+  object-fit: scale-down
 }
 
 .row {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0 4px;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+  justify-content: center;
 }
 
 .column {
-    flex: 16%;
-    max-width: 40%;
-    padding: 1em .5em;
+  flex: 16%;
+  max-width: 40%;
+  padding: 1em .5em;
 }
 
 .column img {
-    margin-top: 8px;
-    vertical-align: middle;
-    max-height: 90%
+  margin-top: 8px;
+  vertical-align: middle;
+  max-height: 90%
 }
 
 @media screen and (max-width: 800px) {
-    .column {
-      flex: 50%;
-      max-width: 50%;
-    }
- }
+  .column {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
 
 @media screen and (max-width: 600px) {
-    .column {
-      flex: 100%;
-      max-width: 100%;
-    }
+  .column {
+    flex: 100%;
+    max-width: 100%;
+  }
 }
 
 .container {
-    display: flex;
-    justify-content: center
+  display: flex;
+  justify-content: center
 }
 
 .imgSoloContainer {
-    display: flex;
-    justify-content: center;
-    max-height: 80vh;
-    max-width: 80vw;
+  display: flex;
+  justify-content: center;
+  max-height: 80vh;
+  max-width: 80vw;
 }
 
 .imgSoloContainer > img {
-    object-fit: scale-down;
+  object-fit: scale-down;
 }
 
 .btnImageDelete {
-    margin-top: 1em;
-    max-width: 10em;
-    float: right;
-    min-width: 10em;
+  margin-top: 1em;
+  max-width: 10em;
+  float: right;
+  min-width: 10em;
 }
 
 .btnImageCopy {
-    margin-top: 1em;
-    max-width: 10em;
-    float: left;
+  margin-top: 1em;
+  max-width: 10em;
+  float: left;
+  min-width: 10em;
+}
+
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.paginationText {
+  justify-self: center;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.btnPagination {
     min-width: 10em;
+    text-align: center;
+    min-height: 3em;
+    background-color: #696969;
+    border-color: #000000;
+    color: white;
+    margin-right: 1em;
+    margin-left: 1em;
 }

@@ -10,12 +10,18 @@ import {
 } from "@kloudsoftware/eisen"
 import {HttpClient} from "../../plugins/HttpClient";
 
+const DIRECTION = {
+    FORWARD: 0,
+    BACKWARD: 1
+};
 
 export class Index extends Component {
-    imageList: Array<ImageDTO> = [];
-    imageMounts: Map<number, VNode> = new Map<number, VNode>();
-    currentPageNum = 0;
-    pageSize = 16;
+    private imageList: Array<ImageDTO> = [];
+    private imageMounts: Map<number, VNode> = new Map<number, VNode>();
+    private currentPageNum = 1;
+    private pageSize = 16;
+    private pages: Map<number, VNode> = new Map<number, VNode>();
+    private pageCountProps: Props;
 
     build(app: VApp): ComponentBuildFunc {
         return (root: VNode, props: Props) => {
@@ -27,35 +33,47 @@ export class Index extends Component {
                 app.router.resolveRoute("/login")
             }
 
+            const imageRoot = app.k("div");
+            const imageRootContainer = app.k("div", {}, [imageRoot]);
+            this.pages.set(this.currentPageNum, imageRoot);
 
             const http = app.get<HttpClient>("http");
             http.peformGet("/api/list/").then(async (resp) => {
                 this.imageList = await resp.json();
-                this.buildImages(app, root);
+                this.buildImages(app, imageRoot, 0);
             }).catch(err => console.log(err)).then(() => {
-                const pagination = app.k("div");
+                const pagination = app.k("div", {attrs: [cssClass("paginationContainer")]});
 
                 const pageForward = app.k("div", {
                     value: "Forward",
-                    attrs: [cssClass("btn btn-confirm router-btn btnImageCopy")]
+                    attrs: [cssClass("btn btnPagination router-btn")]
                 });
 
-                const numPages = Math.ceil(this.imageList.length / this.pageSize);
 
-                const countPageProps = new Props(app);
+                this.pageCountProps = new Props(app);
 
-                countPageProps.setProp("currentPage", this.currentPageNum);
+                this.pageCountProps.setProp("currentPage", this.currentPageNum);
+                this.pageCountProps.setProp("maxPages", this.getMaxPages());
 
-                const countPages = app.k("p", {value: "{{ currentPage }} / {{ maxPages }}", props: countPageProps});
+                const countPages = app.k("p", {
+                    value: "{{ currentPage }} / {{ maxPages }}",
+                    props: this.pageCountProps,
+                    attrs: [cssClass("paginationText")]
+                });
+
 
                 const pageBackward = app.k("div", {
                     value: "Backward",
-                    attrs: [cssClass("btn btn-confirm router-btn btnImageCopy")]
+                    attrs: [cssClass("btn btnPagination router-btn")]
                 });
 
 
-                pageForward.addEventlistener("click", (ev) => {
-                    console.log(this.imageList)
+                pageForward.addEventlistener("click", () => {
+                    this.doPagination(DIRECTION.FORWARD, imageRootContainer, app);
+                });
+
+                pageBackward.addEventlistener("click", () => {
+                    this.doPagination(DIRECTION.BACKWARD, imageRootContainer, app);
                 });
 
                 pagination.appendChild(pageBackward);
@@ -64,8 +82,18 @@ export class Index extends Component {
                 root.appendChild(pagination);
             });
 
+            root.appendChild(imageRootContainer);
+
+
             app.eventPipeLine.registerEvent("itemDeleted", (item: ImageDTO) => {
-                this.imageMounts.get(item.id).parent.removeChild(this.imageMounts.get(item.id));
+                const itemIdx = this.imageList.map(it => it.id).indexOf(item.id);
+                this.imageList.splice(itemIdx, 1);
+                imageRootContainer.removeChild(this.pages.get(this.currentPageNum));
+                this.pages.delete(this.currentPageNum);
+                const newRoot = app.k("div");
+                this.pages.set(this.currentPageNum, newRoot);
+                this.buildImages(app, newRoot, this.currentPageNum * this.pageSize);
+                imageRootContainer.appendChild(newRoot);
             });
 
 
@@ -78,9 +106,42 @@ export class Index extends Component {
         }
     }
 
-    private buildImages(app: VApp, root: VNode, startValue?: number) {
+    private getMaxPages(): number {
+        return Math.ceil(this.imageList.length / this.pageSize);
+    }
+
+    private doPagination(direction: number, mount: VNode, app: VApp) {
+        const oldNum = this.currentPageNum;
+        if (direction === DIRECTION.FORWARD) {
+            if (this.currentPageNum === this.getMaxPages()) {
+                return;
+            }
+            this.currentPageNum++;
+        } else {
+            if (this.currentPageNum === 1) {
+                return;
+            }
+
+            this.currentPageNum--;
+        }
+
+        this.pages.get(oldNum).addClass("invisible");
+
+        if (this.pages.get(this.currentPageNum) === undefined) {
+            let imgRoot = app.k("div");
+            this.pages.set(this.currentPageNum, imgRoot);
+            this.buildImages(app, imgRoot, this.currentPageNum * this.pageSize);
+            mount.appendChild(imgRoot)
+        } else {
+            this.pages.get(this.currentPageNum).removeClass("invisible")
+        }
+
+        this.pageCountProps.setProp("currentPage", this.currentPageNum)
+    }
+
+    private buildImages(app: VApp, root: VNode, startValue: number = 0) {
         let row = app.k("div", {attrs: [cssClass("row")]});
-        this.imageList.forEach((item, index) => {
+        this.imageList.slice(startValue).forEach((item, index) => {
             if (index >= this.pageSize) {
                 return;
             }
@@ -90,7 +151,7 @@ export class Index extends Component {
                 row = app.k("div", {attrs: [cssClass("row")]});
             }
 
-            const img = app.k("img", {attrs: [src("https://kloudfile.io/res/" + item.fileUrl + "/?apiOnly=true")]});
+            const img = app.k("img", {attrs: [src("https://kloudfile.io/res/" + item.fileUrl + "/?apiOnly=true" + "&small=true")]});
             const currImgContainer = app.k("div", {attrs: [cssClass("imgContainer", "column", "card form-card")]}, [img]);
             this.imageMounts.set(item.id, currImgContainer);
             img.addEventlistener("click", () => {
