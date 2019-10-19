@@ -51,7 +51,8 @@ export class Login extends Component {
             confirmBtn.addEventlistener("click", (evt, btn) => {
                 evt.preventDefault();
                 window.localStorage.setItem("token", userInfo.password);
-                app.router.resolveRoute("/")
+                app.eventPipeLine.callEvent("toggleLogin");
+                app.router.resolveRoute("/");
                 return true;
             });
 

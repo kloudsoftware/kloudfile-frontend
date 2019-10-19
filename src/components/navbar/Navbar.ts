@@ -13,25 +13,31 @@ import {
 
 import {css} from './navbarcss';
 import {HttpClient} from '../../plugins/HttpClient';
+import {isLoggedIn} from "../../Util";
 
 export class Navbar extends Component {
     public build(app: VApp): ComponentBuildFunc {
         return (root: VNode, props: Props): ComponentProps => {
-            let loginLink = new RouterLink(app, "/login", [], "")
-            let routerLinkHome = new RouterLink(app, "/", [
-                app.k("h2", {value: "kloudfile", props: props})
-            ], "");
+            root.addClass("flex-initial border-top-0");
 
-            loginLink.addClass("loginIcon");
-
-            let loginIcon: VNode = null;
-            if (isDefinedAndNotEmpty(window.localStorage.getItem("token"))) {
-                loginIcon = app.k("p", {value: window.localStorage.getItem("userName")})
-            } else {
-                loginIcon = app.k("img", {attrs: [src("login.svg")]});
+            let target = "/";
+            if(!isLoggedIn()) {
+                target = "/login"
             }
 
-            loginLink.appendChild(loginIcon);
+            let routerLinkHome = new RouterLink(app, target, [
+                app.k("h2", {value: "kloudfile", props: props, attrs: [cssClass("font-bold")]})
+            ], "");
+
+            let authLink = this.getAuthItem(app);
+
+
+            app.eventPipeLine.registerEvent("toggleLogin", () => {
+                const parent = authLink.parent;
+               parent.removeChild(authLink);
+               authLink = this.getAuthItem(app);
+               parent.appendChild(authLink)
+            });
 
             app.createElement("style", css, root);
             const navDiv = app.k("div");
@@ -39,15 +45,17 @@ export class Navbar extends Component {
                 routerLinkHome,
                 app.k("p", {value: "frontend", props: props}),
                 app.k("div", {attrs: [cssClass("navbarDivider")]}),
-                app.k("img", {attrs:[src("ico/anchor.svg")]}),
-                navDiv
+                navDiv,
+                authLink
             ]);
 
-            const el = new RouterLink(app, "/", [], "All Images", undefined, [cssClass("navbarlink border")]);
-            navDiv.appendChild(el);
+            if (isLoggedIn()) {
+                const el = new RouterLink(app, "/", [], "All Images", undefined, [cssClass("navbarlink border")]);
+                navDiv.appendChild(el);
+            }
+
 
             const http = app.get<HttpClient>("http");
-            navDiv.appendChild(loginLink);
 
 
             root.appendChild(div);
@@ -56,5 +64,28 @@ export class Navbar extends Component {
                 }
             }
         }
+    }
+
+    private getAuthItem(app: VApp) {
+        let authLink: VNode = null;
+        if (isDefinedAndNotEmpty(window.localStorage.getItem("token"))) {
+            const icon = app.k("img", {attrs: [src("ico/log-out.svg")]});
+
+            authLink = app.k("div", {attrs: [cssClass("cursor-pointer")]}, [icon]);
+
+            icon.addEventlistener("click", () => {
+                window.localStorage.removeItem("token");
+                app.eventPipeLine.callEvent("toggleLogin");
+                app.router.resolveRoute("/login");
+            });
+
+        } else {
+            authLink = new RouterLink(app, "/login", [
+                app.k("img", {attrs: [src("ico/log-in.svg")]})
+            ], "");
+        }
+        authLink.addClass("loginIcon float-right");
+
+        return authLink;
     }
 }

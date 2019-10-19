@@ -1,5 +1,3 @@
-@import 'reset.scss';
-
 @mixin transform($property) {
   -webkit-transform: $property;
   -ms-transform: $property;
@@ -454,3 +452,9 @@ a {
     margin-right: 1em;
     margin-left: 1em;
 }
+
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;

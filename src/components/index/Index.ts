@@ -25,11 +25,20 @@ export class Index extends Component {
 
     build(app: VApp): ComponentBuildFunc {
         return (root: VNode, props: Props) => {
+            app.eventPipeLine.registerEvent("toggleLogin", () => {
+                Array.from(this.pages.entries()).forEach(value => {
+                    const node = value[1];
+                    node.parent.removeChild(node);
+                });
+                this.pages = new Map<number, VNode>();
+            });
 
             root.appendChild(app.k("h1", {value: "All Images"}));
 
             let token = window.localStorage.getItem("token");
-            if (!isDefinedAndNotEmpty(token)) {
+
+            if (!isDefinedAndNotEmpty(token) || token === undefined) {
+                console.log("rerouting");
                 app.router.resolveRoute("/login")
             }
 
