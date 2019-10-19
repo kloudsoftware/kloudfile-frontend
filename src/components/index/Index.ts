@@ -65,10 +65,11 @@ export class Index extends Component {
     }
 
     private buildComponent(app: VApp, root: VNode) {
-        root.appendChild(app.k("h1", {value: "All Images"}));
+        root.addClass("flex items-center flex-col w-screen max-w-full");
+        root.appendChild(app.k("h1", {value: "All Images", attrs: [cssClass("")]}));
 
-        const imageRoot = app.k("div");
-        const imageRootContainer = app.k("div", {}, [imageRoot]);
+        const imageRoot = app.k("div", {attrs:[cssClass("w-full")]});
+        const imageRootContainer = app.k("div", { attrs:[cssClass("w-full")] }, [imageRoot]);
         this.pages.set(this.currentPageNum, imageRoot);
 
         const http = app.get<HttpClient>("http");
@@ -79,15 +80,24 @@ export class Index extends Component {
             this.imageList = await resp.json();
             this.buildImages(app, imageRoot, 0);
         }).catch(err => console.log(err)).then(() => {
-            const pagination = app.k("div", {attrs: [cssClass("paginationContainer")]});
+            const pagination = app.k("div", {attrs: [cssClass("flex")]});
+
+            const btnCss = "mx-2 cursor-pointer p-4 border border-solid bg-gray-100 antialiased" +
+                " rounded border-gray-800 shadow-inner hover:shadow-outline hover:shadow-xl";
 
             const pageForward = app.k("div", {
-                value: "Forward",
-                attrs: [cssClass("btn btnPagination router-btn")]
-            });
+                attrs: [cssClass(btnCss)]
+            }, [app.k("img", {attrs:[src("ico/chevron-right.svg")]})]);
 
 
-            this.pageCountProps = new Props(app);
+            const pageBackward = app.k("div", {
+                attrs: [cssClass(btnCss)]
+            }, [app.k("img", {attrs:[src("ico/chevron-left.svg")]})]);
+
+
+
+
+        this.pageCountProps = new Props(app);
 
             this.pageCountProps.setProp("currentPage", this.currentPageNum);
             this.pageCountProps.setProp("maxPages", this.getMaxPages());
@@ -98,11 +108,6 @@ export class Index extends Component {
                 attrs: [cssClass("paginationText")]
             });
 
-
-            const pageBackward = app.k("div", {
-                value: "Backward",
-                attrs: [cssClass("btn btnPagination router-btn")]
-            });
 
 
             pageForward.addEventlistener("click", () => {
@@ -168,7 +173,8 @@ export class Index extends Component {
     }
 
     private buildImages(app: VApp, root: VNode, startValue: number = 0) {
-        let row = app.k("div", {attrs: [cssClass("row")]});
+        const rowCss = "flex justify-center w-full w-2/3 mt-2";
+        let row = app.k("div", {attrs: [cssClass(rowCss)]});
         this.imageList.slice(startValue).forEach((item, index) => {
             if (index >= this.pageSize) {
                 return;
@@ -176,11 +182,12 @@ export class Index extends Component {
 
             if (index % 4 === 0) {
                 root.appendChild(row);
-                row = app.k("div", {attrs: [cssClass("row")]});
+                row = app.k("div", {attrs: [cssClass(rowCss)]});
             }
 
             const img = app.k("img", {attrs: [src("https://kloudfile.io/res/" + item.fileUrl + "/?apiOnly=true" + "&small=true")]});
-            const currImgContainer = app.k("div", {attrs: [cssClass("imgContainer", "column", "card form-card")]}, [img]);
+            const currImgContainer = app.k("div", {attrs: [cssClass("m-4 border-gray-100 shadow " +
+                    "cursor-pointer border-solid hover:shadow-xl bg-white")]}, [img]);
             this.imageMounts.set(item.id, currImgContainer);
             img.addEventlistener("click", () => {
                 history.pushState({}, "", document.location.pathname);

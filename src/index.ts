@@ -9,12 +9,14 @@ import {Image} from "./components/image/Image";
 
 const app = new VApp("target", new Renderer());
 app.init();
-app.use("http", new HttpClient("https://kloudfile.io", app))
+app.use("http", new HttpClient("https://kloudfile.io", app));
+app.rootNode.addClass("bg-gray-100");
+
 
 
 app.mountComponent(new Navbar(), app.rootNode, new Props(app));
 
-const container = app.createElement("div", undefined, app.rootNode, [cssClass("container")]);
+const container = app.createElement("div", undefined, app.rootNode);
 
 const routerMnt = app.createElement("div", undefined, container);
 

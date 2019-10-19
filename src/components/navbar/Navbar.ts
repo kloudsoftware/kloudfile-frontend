@@ -18,7 +18,7 @@ import {isLoggedIn} from "../../Util";
 export class Navbar extends Component {
     public build(app: VApp): ComponentBuildFunc {
         return (root: VNode, props: Props): ComponentProps => {
-            root.addClass("flex-initial border-top-0");
+            root.addClass("flex-initial border-top-0 bg-white");
 
             let target = "/";
             if(!isLoggedIn()) {
@@ -26,7 +26,7 @@ export class Navbar extends Component {
             }
 
             let routerLinkHome = new RouterLink(app, target, [
-                app.k("h2", {value: "kloudfile", props: props, attrs: [cssClass("font-bold")]})
+                app.k("h2", {value: "kloudfile", props: props, attrs: [cssClass("font-semibold")]})
             ], "");
 
             let authLink = this.getAuthItem(app);
@@ -41,16 +41,16 @@ export class Navbar extends Component {
 
             app.createElement("style", css, root);
             const navDiv = app.k("div");
-            const div = app.k("div", {attrs: [cssClass("logo-container")]}, [
+            const div = app.k("div", {attrs: [cssClass("flex items-center h-8 p-4 shadow")]}, [
                 routerLinkHome,
-                app.k("p", {value: "frontend", props: props}),
-                app.k("div", {attrs: [cssClass("navbarDivider")]}),
+                app.k("p", {value: "frontend", props: props, attrs: [cssClass("pt-1 ml-2")]}),
+                app.k("div", {attrs: [cssClass("navBarDivider")]}),
                 navDiv,
                 authLink
             ]);
 
            // if (isLoggedIn()) {
-                const el = new RouterLink(app, "/", [], "All Images", undefined, [cssClass("navbarlink border")]);
+                const el = new RouterLink(app, "/", [], "All Images", undefined, [cssClass("navbarlink borderLink pt-1")]);
                 navDiv.appendChild(el);
             //}
 
@@ -84,7 +84,7 @@ export class Navbar extends Component {
                 app.k("img", {attrs: [src("ico/log-in.svg")]})
             ], "");
         }
-        authLink.addClass("loginIcon float-right");
+        authLink.addClass("ml-auto");
 
         return authLink;
     }
