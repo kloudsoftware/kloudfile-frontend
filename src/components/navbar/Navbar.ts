@@ -19,7 +19,7 @@ export class Navbar extends Component {
         return (root: VNode, props: Props): ComponentProps => {
             let loginLink = new RouterLink(app, "/login", [], "")
             let routerLinkHome = new RouterLink(app, "/", [
-                app.k("h2", {value: "Kloudfile", props: props})
+                app.k("h2", {value: "kloudfile", props: props})
             ], "");
 
             loginLink.addClass("loginIcon");
@@ -39,6 +39,7 @@ export class Navbar extends Component {
                 routerLinkHome,
                 app.k("p", {value: "frontend", props: props}),
                 app.k("div", {attrs: [cssClass("navbarDivider")]}),
+                app.k("img", {attrs:[src("ico/anchor.svg")]}),
                 navDiv
             ]);
 
