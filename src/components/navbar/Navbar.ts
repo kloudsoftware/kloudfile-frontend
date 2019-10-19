@@ -49,10 +49,10 @@ export class Navbar extends Component {
                 authLink
             ]);
 
-            if (isLoggedIn()) {
+           // if (isLoggedIn()) {
                 const el = new RouterLink(app, "/", [], "All Images", undefined, [cssClass("navbarlink border")]);
                 navDiv.appendChild(el);
-            }
+            //}
 
 
             const http = app.get<HttpClient>("http");

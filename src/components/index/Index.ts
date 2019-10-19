@@ -33,86 +33,105 @@ export class Index extends Component {
                 this.pages = new Map<number, VNode>();
             });
 
-            root.appendChild(app.k("h1", {value: "All Images"}));
-
             let token = window.localStorage.getItem("token");
 
             if (!isDefinedAndNotEmpty(token) || token === undefined) {
                 console.log("rerouting");
                 app.router.resolveRoute("/login")
+            } else {
+                console.log("not rerouting");
             }
 
-            const imageRoot = app.k("div");
-            const imageRootContainer = app.k("div", {}, [imageRoot]);
-            this.pages.set(this.currentPageNum, imageRoot);
+            this.buildComponent(app, root);
 
-            const http = app.get<HttpClient>("http");
-            http.peformGet("/api/list/").then(async (resp) => {
-                this.imageList = await resp.json();
-                this.buildImages(app, imageRoot, 0);
-            }).catch(err => console.log(err)).then(() => {
-                const pagination = app.k("div", {attrs: [cssClass("paginationContainer")]});
-
-                const pageForward = app.k("div", {
-                    value: "Forward",
-                    attrs: [cssClass("btn btnPagination router-btn")]
-                });
-
-
-                this.pageCountProps = new Props(app);
-
-                this.pageCountProps.setProp("currentPage", this.currentPageNum);
-                this.pageCountProps.setProp("maxPages", this.getMaxPages());
-
-                const countPages = app.k("p", {
-                    value: "{{ currentPage }} / {{ maxPages }}",
-                    props: this.pageCountProps,
-                    attrs: [cssClass("paginationText")]
-                });
-
-
-                const pageBackward = app.k("div", {
-                    value: "Backward",
-                    attrs: [cssClass("btn btnPagination router-btn")]
-                });
-
-
-                pageForward.addEventlistener("click", () => {
-                    this.doPagination(DIRECTION.FORWARD, imageRootContainer, app);
-                });
-
-                pageBackward.addEventlistener("click", () => {
-                    this.doPagination(DIRECTION.BACKWARD, imageRootContainer, app);
-                });
-
-                pagination.appendChild(pageBackward);
-                pagination.appendChild(countPages);
-                pagination.appendChild(pageForward);
-                root.appendChild(pagination);
-            });
-
-            root.appendChild(imageRootContainer);
-
-
-            app.eventPipeLine.registerEvent("itemDeleted", (item: ImageDTO) => {
-                const itemIdx = this.imageList.map(it => it.id).indexOf(item.id);
-                this.imageList.splice(itemIdx, 1);
-                imageRootContainer.removeChild(this.pages.get(this.currentPageNum));
-                this.pages.delete(this.currentPageNum);
-                const newRoot = app.k("div");
-                this.pages.set(this.currentPageNum, newRoot);
-                this.buildImages(app, newRoot, this.currentPageNum * this.pageSize);
-                imageRootContainer.appendChild(newRoot);
-            });
-
+            const instance = this;
 
             return {
                 mounted: () => {
                 },
                 remount(): void {
+                    token = window.localStorage.getItem("token");
+                    if (!isDefinedAndNotEmpty(token) || token === undefined) {
+                        console.log("rerouting");
+                        app.router.resolveRoute("/login");
+                        return;
+                    } else {
+                        root.$getChildren().forEach(child => root.removeChild(child));
+                        instance.buildComponent(app, root);
+                    }
                 }
             };
         }
+    }
+
+    private buildComponent(app: VApp, root: VNode) {
+        root.appendChild(app.k("h1", {value: "All Images"}));
+
+        const imageRoot = app.k("div");
+        const imageRootContainer = app.k("div", {}, [imageRoot]);
+        this.pages.set(this.currentPageNum, imageRoot);
+
+        const http = app.get<HttpClient>("http");
+        http.peformGet("/api/list/").then(async (resp) => {
+            if (resp.status === 400) {
+                return;
+            }
+            this.imageList = await resp.json();
+            this.buildImages(app, imageRoot, 0);
+        }).catch(err => console.log(err)).then(() => {
+            const pagination = app.k("div", {attrs: [cssClass("paginationContainer")]});
+
+            const pageForward = app.k("div", {
+                value: "Forward",
+                attrs: [cssClass("btn btnPagination router-btn")]
+            });
+
+
+            this.pageCountProps = new Props(app);
+
+            this.pageCountProps.setProp("currentPage", this.currentPageNum);
+            this.pageCountProps.setProp("maxPages", this.getMaxPages());
+
+            const countPages = app.k("p", {
+                value: "{{ currentPage }} / {{ maxPages }}",
+                props: this.pageCountProps,
+                attrs: [cssClass("paginationText")]
+            });
+
+
+            const pageBackward = app.k("div", {
+                value: "Backward",
+                attrs: [cssClass("btn btnPagination router-btn")]
+            });
+
+
+            pageForward.addEventlistener("click", () => {
+                this.doPagination(DIRECTION.FORWARD, imageRootContainer, app);
+            });
+
+            pageBackward.addEventlistener("click", () => {
+                this.doPagination(DIRECTION.BACKWARD, imageRootContainer, app);
+            });
+
+            pagination.appendChild(pageBackward);
+            pagination.appendChild(countPages);
+            pagination.appendChild(pageForward);
+            root.appendChild(pagination);
+        });
+
+        root.appendChild(imageRootContainer);
+
+
+        app.eventPipeLine.registerEvent("itemDeleted", (item: ImageDTO) => {
+            const itemIdx = this.imageList.map(it => it.id).indexOf(item.id);
+            this.imageList.splice(itemIdx, 1);
+            imageRootContainer.removeChild(this.pages.get(this.currentPageNum));
+            this.pages.delete(this.currentPageNum);
+            const newRoot = app.k("div");
+            this.pages.set(this.currentPageNum, newRoot);
+            this.buildImages(app, newRoot, this.currentPageNum * this.pageSize);
+            imageRootContainer.appendChild(newRoot);
+        });
     }
 
     private getMaxPages(): number {

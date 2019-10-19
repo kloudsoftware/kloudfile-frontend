@@ -1,5 +1,6 @@
 import { Component, VApp, ComponentBuildFunc, Props, VNode, src, cssClass } from "@kloudsoftware/eisen"
 import { HttpClient } from "../../plugins/HttpClient";
+// @ts-ignore
 import { ImageDTO } from "../index";
 
 export class Image extends Component {
@@ -51,7 +52,7 @@ export class Image extends Component {
                     deleteBtn,
                     copyBtn,
                     viewCount
-                
+
                 ])
             ]);
 
