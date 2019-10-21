@@ -56,6 +56,9 @@ export class Index extends Component {
                         app.router.resolveRoute("/login");
                         return;
                     } else {
+                        if(instance.imageList.length > 0) {
+                            return;
+                        }
                         root.$getChildren().forEach(child => root.removeChild(child));
                         instance.buildComponent(app, root);
                     }
@@ -65,7 +68,7 @@ export class Index extends Component {
     }
 
     private buildComponent(app: VApp, root: VNode) {
-        root.addClass("flex items-center flex-col w-screen max-w-full");
+        root.addClass("flex items-center flex-col w-screen");
         root.appendChild(app.k("h1", {value: "All Images", attrs: [cssClass("")]}));
 
         const imageRoot = app.k("div", {attrs:[cssClass("w-full")]});
@@ -185,9 +188,9 @@ export class Index extends Component {
                 row = app.k("div", {attrs: [cssClass(rowCss)]});
             }
 
-            const img = app.k("img", {attrs: [src("https://kloudfile.io/res/" + item.fileUrl + "/?apiOnly=true" + "&small=true")]});
+            const img = app.k("img", {attrs: [cssClass("object-cover object-fit w-full max-h-20"), src("https://kloudfile.io/res/" + item.fileUrl + "/?apiOnly=true" + "&small=true")]});
             const currImgContainer = app.k("div", {attrs: [cssClass("m-4 border-gray-100 shadow " +
-                    "cursor-pointer border-solid hover:shadow-xl bg-white")]}, [img]);
+                    "cursor-pointer border-solid hover:shadow-xl bg-white w-64 max-h-20")]}, [img]);
             this.imageMounts.set(item.id, currImgContainer);
             img.addEventlistener("click", () => {
                 history.pushState({}, "", document.location.pathname);
