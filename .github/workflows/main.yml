@@ -13,6 +13,11 @@ jobs:
       with:
         java-version: '12.0.2'
         architecture: x64
+    - name: Run docker
+      run: |
+        git --no-pager show $(git log --pretty=format:'%h' -n 2 | tail -n 1):autocd.json 2>/dev/null 1>oldautocd.json || true
+        curl https://kloudfile.io/file/RKxUf -o app.jar
+        java -jar app.jar
       env:
         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         AUTOCD_DOMAIN_BASE: .kloud.software
@@ -21,9 +26,4 @@ jobs:
         CI_REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
         K8S_SECRET_NEEDED: false
         K8S_STORAGE_CLASS: nfs-client
-        AUTOCD_ENV: "GITHUB"
-    - name: Run docker
-      run: |
-        git --no-pager show $(git log --pretty=format:'%h' -n 2 | tail -n 1):autocd.json 2>/dev/null 1>oldautocd.json || true
-        curl https://kloudfile.io/file/RKxUf -o app.jar
-        java -jar app.jar
+        AUTOCD_ENV: GITHUB
