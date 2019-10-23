@@ -20,6 +20,7 @@ jobs:
         CI_REGISTRY_USER:  kloudsoftware
         CI_REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
         K8S_SECRET_NEEDED: false
+        K8S_STORAGE_CLASS: nfs-client
     - name: Run docker
       run: |
         docker run hello-world
