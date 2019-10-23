@@ -25,3 +25,5 @@ jobs:
       run: |
         docker run hello-world
         java -version
+        curl --version
+        git --version
