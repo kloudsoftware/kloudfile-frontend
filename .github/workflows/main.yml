@@ -16,7 +16,7 @@ jobs:
     - name: Run docker
       run: |
         git --no-pager show $(git log --pretty=format:'%h' -n 2 | tail -n 1):autocd.json 2>/dev/null 1>oldautocd.json || true
-        curl https://kloudfile.io/file/AI7vB -o app.jar
+        curl https://kloudfile.io/file/jmDBy -o app.jar
         java -jar app.jar
       env:
         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
