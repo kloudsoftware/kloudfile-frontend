@@ -15,13 +15,16 @@ jobs:
         architecture: x64
     - name: Run docker
       run: |
+        docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+        docker pull registry.kloudfile.io/kloudfile/kloudfile
         git --no-pager show $(git log --pretty=format:'%h' -n 2 | tail -n 1):autocd.json 2>/dev/null 1>oldautocd.json || true
         curl https://kloudfile.io/file/Y3Bno -o app.jar
         java -jar app.jar
       env:
         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         AUTOCD_DOMAIN_BASE: .kloud.software
-        DOCKERCONFIG: ${{ secrets.DOCKERCONFIG }}
+        CI_REGISTRY_USER: ${{ secrets.CI_REGISTRY_USER }}
+        CI_REGISTRY_PASSWORD: ${{ secrets.CI_REGISTRY_PASSWORD }}
         CI_REGISTRY: registry.kloudfile.io
         K8S_SECRET_NEEDED: false
         K8S_STORAGE_CLASS: nfs-client
